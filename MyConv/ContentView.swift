@@ -8,9 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    init(){
+        UITabBar.appearance().backgroundColor = UIColor.white
+    }
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView {
+            TemperatureView()
+                .tabItem {
+                    Label("Temperature", systemImage: "thermometer")
+                }
+            
+            LengthView()
+                .tabItem {
+                    Label("Length", systemImage: "ruler.fill")
+                }
+            
+            TimeView()
+                .tabItem {
+                    Label("Time", systemImage: "clock")
+                }
+            
+            VolumeView()
+                .tabItem {
+                    Label("Volume", systemImage: "cube.transparent")
+                }
+        }
     }
 }
 
