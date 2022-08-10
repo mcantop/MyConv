@@ -13,13 +13,13 @@ struct LengthView: View {
     @State private var startUnit = 0
     @State private var endUnit = 1
     
-    private let units: [UnitLength] = [
-        .meters, .kilometers, .feet, .yards, .miles
+    private let units: [(String, UnitLength)] = [
+       ("Meters", .meters), ("Kilometers", .kilometers), ("Feet", .feet), ("Yards", .yards), ("Miles", .miles)
     ]
     
     private var convert: Double {
-        let unitToConvert = Measurement(value: Double(inputAmount) ?? 0, unit: units[startUnit])
-        return unitToConvert.converted(to: units[endUnit]).value
+        let unitToConvert = Measurement(value: Double(inputAmount) ?? 0, unit: units[startUnit].1)
+        return unitToConvert.converted(to: units[endUnit].1).value
     }
     
     var body: some View {
@@ -33,7 +33,7 @@ struct LengthView: View {
                         
                         Picker("Your unit", selection: $startUnit) {
                             ForEach(0..<5) {
-                                Text("\(self.units[$0].symbol)")
+                                Text("\(self.units[$0].0)")
                             }
                         }
                         .pickerStyle(.menu)
@@ -42,18 +42,18 @@ struct LengthView: View {
                         
                         Picker("Wanted unit", selection: $endUnit) {
                             ForEach(0..<5) {
-                                Text("\(self.units[$0].symbol)")
+                                Text("\(self.units[$0].0)")
                             }
                         }
                         .pickerStyle(.menu)
                     }
                 } header: {
-                    Text("Number and units")
+                    Text("Value and units")
                 }
                 
                 Section {
                     Text(convert, format: .number) +
-                    Text(" \(units[endUnit].symbol)")
+                    Text(" \(units[endUnit].1.symbol)")
                 } header: {
                     Text("Converted")
                 }

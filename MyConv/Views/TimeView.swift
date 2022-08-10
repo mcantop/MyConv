@@ -13,13 +13,13 @@ struct TimeView: View {
     @State private var startUnit = 0
     @State private var endUnit = 1
     
-    private let units: [UnitDuration] = [
-        .seconds, .minutes, .hours
+    private let units: [(String, UnitDuration)] = [
+        ("Seconds", .seconds), ("Minutes", .minutes), ("Hours", .hours)
     ]
     
     private var convert: Double {
-        let unitToConvert = Measurement(value: Double(inputAmount) ?? 0, unit: units[startUnit])
-        return unitToConvert.converted(to: units[endUnit]).value
+        let unitToConvert = Measurement(value: Double(inputAmount) ?? 0, unit: units[startUnit].1)
+        return unitToConvert.converted(to: units[endUnit].1).value
     }
     
     var body: some View {
@@ -33,7 +33,7 @@ struct TimeView: View {
                         
                         Picker("Your unit", selection: $startUnit) {
                             ForEach(0..<3) {
-                                Text("\(self.units[$0].symbol)")
+                                Text("\(self.units[$0].0)")
                             }
                         }
                         .pickerStyle(.menu)
@@ -42,18 +42,18 @@ struct TimeView: View {
                         
                         Picker("Wanted unit", selection: $endUnit) {
                             ForEach(0..<3) {
-                                Text("\(self.units[$0].symbol)")
+                                Text("\(self.units[$0].0)")
                             }
                         }
                         .pickerStyle(.menu)
                     }
                 } header: {
-                    Text("Number and units")
+                    Text("Value and units")
                 }
                 
                 Section {
                     Text(convert, format: .number) +
-                    Text(" \(units[endUnit].symbol)")
+                    Text(" \(units[endUnit].1.symbol)")
                 } header: {
                     Text("Conversion")
                 }
